@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Mood Mate</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(120deg, rgba(162, 234, 242, 0.9), rgba(116, 159, 255, 0.9)),
+                url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            backdrop-filter: blur(15px);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Background animation */
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(162, 234, 242, 0.9), rgba(116, 159, 255, 0.9));
+            animation: backgroundAnimation 20s ease infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        header {
+            background-color: rgba(52, 40, 213, 0.9);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: top;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+            transition: color 0.3s;
+        }
+
+        header ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        header ul li {
+            margin-left: 25px;
+        }
+
+        header ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s, border-bottom 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        header ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a2eaf2;
+            transition: width 0.3s;
+        }
+
+        header ul li a:hover::after {
+            width: 100%;
+        }
+
+        header ul li a:hover {
+            color: #a2eaf2;
+            transform: scale(1.1);
+            text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-us {
+            padding: 60px 20px;
+            text-align: center;
+            background: rgba(116, 159, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 100px auto 20px auto;
+            animation: fadeIn 1.5s ease-in-out;
+            max-width: 800px;
+        }
+
+        .about-us h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #3428d5;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-us p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            animation: fadeInText 1s ease-in-out;
+        }
+
+        .about-us button {
+            background-color: #3428d5;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .about-us button:hover {
+            background-color: #749fff;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background-color: rgba(52, 40, 213, 0.9);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .accordion {
+            background-color: #3428d5;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            text-align: left;
+            outline: none;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .accordion:hover {
+            background-color: #749fff;
+        }
+
+        .panel {
+            padding: 0 15px;
+            background-color: rgba(116, 159, 255, 0.3);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .panel.show {
+            max-height: 200px; /* Adjust based on content */
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header ul li {
+                margin-left: 15px;
+            }
+
+            .about-us {
+                padding: 30px 10px;
+                margin: 50px auto 20px auto;
+            }
+
+            .about-us h2 {
+                font-size: 2rem;
+            }
+
+            .about-us p {
+                font-size: 1rem;
+            }
+
+            .about-us button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Mood Mate</h1>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="chatbot.html">Chatbot</a></li> <!-- Link to the chatbot file -->
+            <li><a href="activities.html">Activities & Games</a></li> <!-- Link to the activities file -->
+            <li><a href="about.html">About Us</a></li> <!-- Link to the about page -->
+        </ul>
+    </header>
+    
+    
+
+    <div class="about-us">
+        <h2>About Us</h2>
+        <p><strong>Designers:</strong> Omar Khaled, Mohamed Shamy, Begad Mostafa, Abdelrahman, Yousef Rezk, and Samir Amer</p>
+        <p><strong>Why We Made This Website:</strong> To provide a personalized emotional support tool for individuals with autism, helping them manage their emotions and improve their quality of life.</p>
+        <p><strong>To Whom:</strong> This website is designed for individuals with autism, their families, and caregivers who seek better emotional support and engagement through interactive tools and resources.</p>
+        <button onclick="window.location.href='index.html'">Back to Home</button>
+
+        <h2>More Information</h2>
+        <button class="accordion">Designers</button>
+        <div class="panel">
+            <p>Our team consists of passionate designers committed to creating impactful solutions. Here’s a bit more about each of them:</p>
+            <ul>
+                <li>Omar Khaled</li>
+                <li>Mohamed Shamy</li>
+                <li>Begad Mostafa</li>
+                <li>Abdelrahman ibrahim</li>
+                <li>Yousef Rezk</li>
+                <li>Samir Amer</li>
+                <li>Aseel ibrahim</li>
+            </ul>
+        </div>
+
+        <button class="accordion">Our Mission</button>
+        <div class="panel">
+            <p>Our mission is to create tools that improve the emotional well-being of individuals with autism. We strive to provide a supportive and engaging environment through innovative technology.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Mood Mate. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Accordion functionality
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

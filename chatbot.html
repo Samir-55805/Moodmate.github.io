@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Mate Chatbot</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(120deg, rgba(162, 234, 242, 0.9), rgba(116, 159, 255, 0.9)), url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            backdrop-filter: blur(15px);
+            color: #333;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+            scroll-behavior: smooth;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            background-color: rgba(52, 40, 213, 0.9);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: top;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideDown 1s ease forwards;
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+            animation: fadeInLeft 1.2s ease forwards;
+        }
+
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        header ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            animation: fadeInRight 1.2s ease forwards;
+        }
+
+        @keyframes fadeInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        header ul li {
+            margin-left: 25px;
+        }
+
+        header ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s, border-bottom 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        header ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a2eaf2;
+            transition: width 0.3s;
+        }
+
+        header ul li a:hover::after {
+            width: 100%;
+        }
+
+        header ul li a:hover {
+            color: #a2eaf2;
+            transform: scale(1.1);
+            text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 100px auto 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: fadeInChatContainer 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeInChatContainer {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-header {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #3428d5;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+            animation: fadeInMessages 1.2s ease-in-out;
+        }
+
+        @keyframes fadeInMessages {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .chat-input {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-input textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input textarea:focus {
+            border-color: #3428d5;
+            box-shadow: 0 0 8px rgba(52, 40, 213, 0.5);
+        }
+
+        .chat-input button {
+            align-self: flex-end;
+            background-color: #3428d5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            animation: bounceIn 1.2s ease forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.9);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .chat-input button:hover {
+            background-color: #2b1a9d;
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: fadeInMessage 0.5s ease;
+        }
+
+        @keyframes fadeInMessage {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            background-color: #a2eaf2;
+            align-self: flex-end;
+            animation: bounceInMessage 0.5s ease;
+        }
+
+        .message.bot {
+            background-color: #e0e0e0;
+            align-self: flex-start;
+            animation: bounceInMessage 0.5s ease;
+        }
+
+        @keyframes bounceInMessage {
+            0% {
+                transform: scale(0.9);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Mood Mate</h1>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="chatbot.html">Chatbot</a></li>
+            <li><a href="activities.html">Activities & Games</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+    </header>
+
+    <div class="chat-container">
+        <div class="chat-header">Chat with Mood Mate</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <textarea id="userInput" rows="3" placeholder="Type your message..."></textarea>
+            <button id="sendMessage">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendMessageButton = document.getElementById('sendMessage');
+
+        const apiEndpoint = 'https://api.openai.com/v1/chat/completions';
+        const apiKey = 'your-api-key-here';
+
+        function appendMessage(text, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = text;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            appendMessage(message, 'user');
+            userInput.value = '';
+
+            try {
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-3.5-turbo',
+                        messages: [{ role: 'user', content: message }]
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                if (data.choices && data.choices.length > 0) {
+                    appendMessage(data.choices[0].message.content, 'bot');
+                } else {
+                    throw new Error('Invalid response from API');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('Sorry, something went wrong. Please try again later.', 'bot');
+            }
+        }
+
+        sendMessageButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+
+</html>

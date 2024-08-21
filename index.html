@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Mate - Emotional Support for Autism</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(120deg, rgba(162, 234, 242, 0.9), rgba(116, 159, 255, 0.9)), url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            backdrop-filter: blur(15px);
+            color: #333;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+            scroll-behavior: smooth;
+            cursor: url('https://cdn.jsdelivr.net/gh/xyz/cursor.png'), auto;
+            padding-top: 80px; /* Adjusted for header height */
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(52, 40, 213, 0.9);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed; /* Fixed position */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        header ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        header ul li {
+            margin-left: 25px;
+        }
+
+        header ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s, border-bottom 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        header ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a2eaf2;
+            transition: width 0.3s;
+        }
+
+        header ul li a:hover::after {
+            width: 100%;
+        }
+
+        header ul li a:hover {
+            color: #a2eaf2;
+            transform: scale(1.1);
+            text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            color: white;
+            padding: 120px 30px;
+            position: relative;
+            overflow: hidden;
+            animation: heroTextIn 1.5s ease-in-out;
+        }
+
+        .hero h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: heroText 2s infinite alternate ease-in-out;
+            text-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            animation: fadeIn 3s;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation Buttons Section */
+        .buttons-section {
+            padding: 80px 20px;
+            text-align: center;
+            animation: fadeIn 2s;
+        }
+
+        .buttons-section h2 {
+            margin-bottom: 40px;
+            color: #3428d5;
+            animation: slideInFromLeft 2s;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            animation: slideInFromRight 2s;
+        }
+
+        .nav-button {
+            background-color: rgba(162, 234, 242, 0.9);
+            color: #3428d5;
+            padding: 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s, scale 0.3s;
+            flex: 1;
+            min-width: 220px;
+            max-width: 350px;
+            animation: pulseGlow 2s infinite alternate;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(116, 159, 255, 0.2), rgba(116, 159, 255, 0.5));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-button:hover::before {
+            opacity: 1;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(116, 159, 255, 0.9);
+            transform: scale(1.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            animation: bounce 0.5s;
+        }
+
+        footer {
+            background-color: rgba(52, 40, 213, 0.9);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Keyframes for animations */
+        @keyframes heroText {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes heroTextIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+            }
+
+            100% {
+                box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* About Us Page Styles */
+        .about-us {
+            padding: 50px 20px;
+            text-align: center;
+            background: rgba(116, 159, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+        }
+
+        .about-us h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #3428d5;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-us p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Mood Mate</h1>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="chatbot.html">Chatbot</a></li> <!-- Link to the chatbot file -->
+            <li><a href="activities.html">Activities & Games</a></li> <!-- Link to the activities file -->
+            <li><a href="about.html">About Us</a></li> <!-- Link to the about page -->
+        </ul>
+    </header>
+    
+    
+
+    <div class="hero">
+        <h2>Welcome to Mood Mate</h2>
+        <p>Your personalized emotional support tool for you.</p>
+    </div>
+
+    <section class="buttons-section">
+        <h2>Explore Our Features</h2>
+        <div class="buttons-container">
+            <button class="nav-button" onclick="window.location.href='chatbot.html'">Chat with AI</button>
+            <button class="nav-button" onclick="window.location.href='activities.html'">Activities & Games</button>
+            <button class="nav-button" onclick="window.location.href='about.html'">About Us</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Mood Mate. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
